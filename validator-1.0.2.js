@@ -366,10 +366,10 @@ function defineValidator(window,$,VldRulesLib){
     }
 
     /* 从规则中分离提取参数 */
-    var getArgsFromRule=function(rule){
-        if(rule&&rule.length>0){
-           for(var j=0;j<rule.length;j++){
-           	   var result=/^(\w+)(\[([\s\S]+)\])?$/.exec(rule[j]);
+    var getArgsFromRule=function(rules,rule){
+        if(rules&&rules.length>0){
+           for(var j=0;j<rules.length;j++){
+           	   var result=/^(\w+)(\[([\s\S]+)\])?$/.exec(rules[j]);
            	   if(result&&result[1].toLowerCase()==rule){
            	   	  return result[3];
            	   }
@@ -479,11 +479,11 @@ function defineValidator(window,$,VldRulesLib){
             if (validations[i].limiter) {
                 validations[i].textLimiter = new Limiter(validations[i].$el
                     ,$.extend(true, {}, defaults.limiter, opts.limiter, validations[i].limiter));
-                /* 通过rule数组来为limiter的Max属性赋值 */
-                var max=getArgsFromRule('max');
+                /* 通过rule数组来为limiter的Max属性赋值 */  
+                var max=getArgsFromRule(validations[i].rule,'max');
                 if(max&&!isNaN(max)){
-                   validations[i].textLimiter.max=max;
-                }                
+                   validations[i].textLimiter.options.max=max;
+                }
             }
 
             /* 记录是否需要动态验证 */
