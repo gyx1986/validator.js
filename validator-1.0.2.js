@@ -775,9 +775,17 @@ function defineValidator(window,$,VldRulesLib){
             });
         }
 
+        //判断要动态验证的控件是否失去焦点
+    	if(validation.field&&!$(validation.field).is(':focus')){
+    	    validation._isBlur=true;
+    	}else{
+    	    validation._isBlur=false;
+    	}
+
 
         //验证
-        result = VldRulesLib.validate(value, rule);
+        //_isBlur是为了使得规则库中的校验能知道何时输入结束,以验证一些问题
+        result = VldRulesLib.validate(value, rule,{isBlur:validation._isBlur});
 
         validation.details = result.details;
         validation.passed = result.passed;
